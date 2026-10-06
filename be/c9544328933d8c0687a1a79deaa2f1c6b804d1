@@ -1,0 +1,56 @@
+docker/docker-compose.yml
+  s_d45673e7953702::t_8d670cd0a58b83 476-501
+  s_d45673e7953702::t_8614aff180b8db 152,318,367,454
+apps/ui-library/package.json
+  s_bc72a208272af6::t_a83125c390ad9b 12
+apps/studio/AGENTS.md
+  s_316b95909a9152::t_e1d0f0b3703878 90-99
+docker/volumes/api/envoy/cds.yaml
+  s_d45673e7953702::t_d005d3905f4f2f 224-255
+apps/studio/scripts/dispatch.js
+  s_d6c45c769fe021::t_b687a298cda686 44-45,49
+docker/volumes/api/envoy/lds.template.yaml
+  s_d45673e7953702::t_e60c9a751dfc04 311,323-342
+  s_d45673e7953702::t_6d2c5b1ed1bcf1 312-314,320-322
+  s_d45673e7953702::t_98c687ba707589 315-319
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bec9544328933d8c0687a1a79deaa2f1c6b804d1",
+  "prompts": {},
+  "sessions": {
+    "s_316b95909a9152": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "de50344b-aa53-45c4-a3e1-7589d9e275ac",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Keith Digby <keith.digby@codewizards.co.uk>"
+    },
+    "s_bc72a208272af6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "212d41c2-e6f3-4bc3-b62d-fa7883a87d36",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Keith Digby <keith.digby@codewizards.co.uk>"
+    },
+    "s_d45673e7953702": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "84f62d72-ea79-4bca-a5ce-44dc05e2b3c9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Keith Digby <keith.digby@codewizards.co.uk>"
+    },
+    "s_d6c45c769fe021": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fb646d7d-9790-402e-a3ae-0af6d6d152d6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Keith Digby <keith.digby@codewizards.co.uk>"
+    }
+  }
+}
