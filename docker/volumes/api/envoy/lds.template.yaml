@@ -320,6 +320,38 @@ resources:
                                     principals:
                                       - any: true
 
+                      # Custom service. Allows all requests through the
+                      # gateway; the service verifies JWTs itself.
+                      - name: new-feature-v1-all
+                        match:
+                          prefix: /new-feature/v1/
+                        route:
+                          cluster: new-feature
+                          prefix_rewrite: /
+                          timeout: 30s
+                        request_headers_to_add:
+                          - header:
+                              key: X-Forwarded-Prefix
+                              value: /new-feature/v1
+                            append_action: ADD_IF_ABSENT
+                        typed_per_filter_config:
+                          envoy.filters.http.basic_auth:
+                            '@type': >-
+                              type.googleapis.com/envoy.config.route.v3.FilterConfig
+                            disabled: true
+                          envoy.filters.http.rbac:
+                            '@type': >-
+                              type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
+                            rbac:
+                              rules:
+                                action: ALLOW
+                                policies:
+                                  allow_all:
+                                    permissions:
+                                      - any: true
+                                    principals:
+                                      - any: true
+
                       - name: auth-v1-protected
                         match:
                           prefix: /auth/v1/

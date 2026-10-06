@@ -41,9 +41,12 @@ const script = `${target}:${framework}`
 // event loop and stdin doesn't flow through cleanly. The dev server says
 // "ready" then exits ~1s later. `spawn` + manual forwarding keeps the
 // child interactive and lets the parent exit cleanly when the child does.
+// On Windows pnpm is a `pnpm.cmd` shim, which Node can only resolve and run
+// through a shell (spawning `.cmd` files directly throws since Node 20.12).
 const child = spawn('pnpm', ['run', script], {
   stdio: 'inherit',
   env: process.env,
+  shell: process.platform === 'win32',
 })
 
 const forwardSignal = (signal) => {
