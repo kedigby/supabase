@@ -462,6 +462,9 @@ services:
       SUPABASE_PUBLISHABLE_KEYS: "{\"default\":\"${SUPABASE_PUBLISHABLE_KEY:-}\"}"
       SUPABASE_SECRET_KEYS: "{\"default\":\"${SUPABASE_SECRET_KEY:-}\"}"
       SUPABASE_DB_URL: postgresql://postgres:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      # Secrets for custom functions
+      ONESIGNAL_API_KEY: ${ONESIGNAL_API_KEY:-}
+      ONESIGNAL_API_APP_ID: ${ONESIGNAL_API_APP_ID}
       # TODO: Allow configuring VERIFY_JWT per function.
       VERIFY_JWT: "${FUNCTIONS_VERIFY_JWT}"
     command:
@@ -480,6 +483,13 @@ services:
       context: ../../new-feature
     image: new-feature:local
     restart: unless-stopped
+    depends_on:
+      db:
+        # Disable this if you are using an external Postgres database
+        condition: service_healthy
+      # The service's tables reference auth.users, created by Auth's migrations
+      auth:
+        condition: service_healthy
     healthcheck:
       test:
         [
@@ -498,6 +508,14 @@ services:
       # For verifying Supabase JWTs in the service
       JWT_SECRET: ${JWT_SECRET}
       SUPABASE_JWKS_URL: http://auth:9999/.well-known/jwks.json
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      # Encrypts OAuth state and stored tokens
+      NEW_FEATURE_SECRET: ${NEW_FEATURE_SECRET:-}
+      # PostHog OAuth
+      POSTHOG_CLIENT_ID: ${POSTHOG_CLIENT_ID:-}
+      POSTHOG_REDIRECT_URI: ${POSTHOG_REDIRECT_URI:-${SUPABASE_PUBLIC_URL}/new-feature/v1/posthog/callback}
+      POSTHOG_SCOPES: ${POSTHOG_SCOPES:-}
+      POSTHOG_RETURN_URL: ${POSTHOG_RETURN_URL:-}
 
   # Comment out everything below this point if you are using an external Postgres database
   db:
