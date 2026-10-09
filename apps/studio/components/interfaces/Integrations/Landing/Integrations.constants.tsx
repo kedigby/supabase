@@ -1,24 +1,27 @@
-import { getEnableWebhooksSQL } from '@supabase/pg-meta'
-import type { Tables } from 'common/marketplace.types'
-import { Clock5, Code2, Layers, Timer, Vault, Warehouse, Webhook } from 'lucide-react'
-import dynamic from 'next/dynamic'
-import Image from 'next/image'
-import { ComponentType, ReactNode } from 'react'
-import { cn } from 'ui'
-import { GenericSkeletonLoader } from 'ui-patterns/ShimmeringLoader'
+import { getEnableWebhooksSQL } from '@supabase/pg-meta';
+import type { Tables } from 'common/marketplace.types';
+import { Clock5, Code2, Layers, Timer, Vault, Warehouse, Webhook } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import { ComponentType, ReactNode } from 'react';
+import { cn } from 'ui';
+import { GenericSkeletonLoader } from 'ui-patterns/ShimmeringLoader';
 
-import { UpgradeDatabaseAlert } from '../Queues/UpgradeDatabaseAlert'
-import { getStripeSyncSchemaComment } from '../templates/StripeSyncEngine/useStripeSyncStatus'
-import { WRAPPERS } from '../Wrappers/Wrappers.constants'
-import { WrapperMeta } from '../Wrappers/Wrappers.types'
-import { stripeSyncKeys } from '@/data/database-integrations/stripe/keys'
-import { installStripeSync } from '@/data/database-integrations/stripe/stripe-sync-install-mutation'
-import { enableDatabaseWebhooks } from '@/data/database/hooks-enable-mutation'
-import { databaseKeys } from '@/data/database/keys'
-import { getSchemas, invalidateSchemasQuery } from '@/data/database/schemas-query'
-import { getQueryClient } from '@/data/query-client'
-import { BASE_PATH, DOCS_URL } from '@/lib/constants'
-import { useTrack } from '@/lib/telemetry/track'
+
+
+import { UpgradeDatabaseAlert } from '../Queues/UpgradeDatabaseAlert';
+import { getStripeSyncSchemaComment } from '../templates/StripeSyncEngine/useStripeSyncStatus';
+import { WRAPPERS } from '../Wrappers/Wrappers.constants';
+import { WrapperMeta } from '../Wrappers/Wrappers.types';
+import { stripeSyncKeys } from '@/data/database-integrations/stripe/keys';
+import { installStripeSync } from '@/data/database-integrations/stripe/stripe-sync-install-mutation';
+import { enableDatabaseWebhooks } from '@/data/database/hooks-enable-mutation';
+import { databaseKeys } from '@/data/database/keys';
+import { getSchemas, invalidateSchemasQuery } from '@/data/database/schemas-query';
+import { getQueryClient } from '@/data/query-client';
+import { BASE_PATH, DOCS_URL } from '@/lib/constants';
+import { useTrack } from '@/lib/telemetry/track';
+
 
 export type NavigationContentLayout = 'constrained' | 'full'
 
@@ -498,6 +501,40 @@ const SUPABASE_INTEGRATIONS: Array<IntegrationDefinition> = [
               loading: Loading,
             }
           )
+      }
+      return null
+    },
+  },
+  {
+    id: 'posthog',
+    type: 'custom' as const,
+    source: 'Official' as const, // or 'Partner' if you'd rather not claim it's built by Supabase
+    status: 'alpha' as const,
+    requiredExtensions: ['vault'],
+    name: 'PostHog',
+    icon: ({ className, ...props } = {}) => (
+      <Image
+        fill
+        src={`${BASE_PATH}/img/icons/posthog-icon.svg`}
+        alt="PostHog Logo"
+        className={cn('p-2', className)}
+        {...props}
+      />
+    ),
+    description: 'Connect your PostHog project to analyze product usage alongside your database',
+    docsUrl: 'https://posthog.com/docs',
+    siteUrl: 'https://posthog.com',
+    author: authorSupabase,
+    navigation: [{ route: 'overview', label: 'Overview' }],
+    navigate: ({ pageId = 'overview' }) => {
+      if (pageId === 'overview') {
+        return dynamic(
+          () =>
+            import('@/components/interfaces/Integrations/PostHog/OverviewTab').then(
+              (mod) => mod.PostHogOverviewTab
+            ),
+          { loading: Loading }
+        )
       }
       return null
     },

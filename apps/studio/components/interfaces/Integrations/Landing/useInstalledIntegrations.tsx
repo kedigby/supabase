@@ -9,9 +9,11 @@ import {
   useProjectOAuthIntegrationData,
 } from './Landing.utils'
 import { useAvailableIntegrations } from './useAvailableIntegrations'
+import { isPostHogInstalled } from '@/components/interfaces/Integrations/PostHog/PostHog.utils'
 import { useDatabaseExtensionsQuery } from '@/data/database-extensions/database-extensions-query'
 import { useSchemasQuery } from '@/data/database/schemas-query'
 import { useFDWsQuery } from '@/data/fdw/fdws-query'
+import { useVaultSecretsQuery } from '@/data/vault/vault-secrets-query'
 import { useAsyncCheckPermissions } from '@/hooks/misc/useCheckPermissions'
 import { useSelectedOrganizationQuery } from '@/hooks/misc/useSelectedOrganization'
 import { useSelectedProjectQuery } from '@/hooks/misc/useSelectedProject'
@@ -83,6 +85,15 @@ export const useInstalledIntegrations = () => {
     connectionString: project?.connectionString,
   })
 
+  // Errors are deliberately not surfaced: the query fails when the supabase_vault extension isn't
+  // installed, and that should only hide PostHog's installed state, not the whole list.
+  const { data: vaultSecrets = EMPTY_ARR, isPending: isVaultSecretsLoading } = useVaultSecretsQuery(
+    {
+      projectRef: project?.ref,
+      connectionString: project?.connectionString,
+    }
+  )
+
   const isHooksEnabled = schemas.some((schema) => schema.name === 'supabase_functions')
 
   const installedIntegrations = useMemo(() => {
@@ -94,6 +105,7 @@ export const useInstalledIntegrations = () => {
         // whether Warehouse is set up on this project is handled inside its tabs, following the same split
         // Data API uses.
         if (integration.id === 'warehouse') return true
+        if (integration.id === 'posthog') return isPostHogInstalled(vaultSecrets)
         if (integration.id === 'stripe_sync_engine') {
           return isStripeSyncEngineInstalled(schemas)
         }
@@ -112,7 +124,7 @@ export const useInstalledIntegrations = () => {
         return false
       })
       .sort((a, b) => a.name.localeCompare(b.name))
-  }, [allIntegrations, wrappers, extensions, schemas, isHooksEnabled, oauthData])
+  }, [allIntegrations, wrappers, extensions, schemas, vaultSecrets, isHooksEnabled, oauthData])
 
   const error =
     fdwError ||
@@ -125,6 +137,7 @@ export const useInstalledIntegrations = () => {
     isFDWLoading ||
     isExtensionsLoading ||
     isAvailableIntegrationsLoading ||
+    isVaultSecretsLoading ||
     (hasOAuthIntegration && canReadOAuthApps && isOAuthDataLoading)
   const isError =
     isErrorFDWs ||
