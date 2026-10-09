@@ -1,0 +1,34 @@
+docker/volumes/functions/_shared/one-signal/models.ts
+  s_64492c934d88a2::t_b4a0c0e0d8ed30 1-71
+  s_64492c934d88a2::t_387573ff1ae2c7 72-128
+docker/volumes/functions/push-notification/index.ts
+  s_64492c934d88a2::t_44e4a44270093b 23-25,27,29-30
+  s_64492c934d88a2::t_dcf37d654f92ca 31
+  s_64492c934d88a2::t_033f981a8cbfb6 2-5,11,13,16,18-20,33-49,51-52,54-55
+docker/volumes/functions/push-notification-create-user/index.ts
+  s_6bb5ab12af4ca3::t_2fd1df80389014 1-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ccac164eeedff7003c5f3d74f7f83bfbc3aa6e36",
+  "prompts": {},
+  "sessions": {
+    "s_64492c934d88a2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d3872325-03f4-4f89-a79a-027cfc680d8a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Keith Digby <keith.digby@codewizards.co.uk>"
+    },
+    "s_6bb5ab12af4ca3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "832a6ffd-5684-4eeb-999d-0e23eb8af799",
+        "model": "unknown"
+      },
+      "human_author": "Keith Digby <keith.digby@codewizards.co.uk>"
+    }
+  }
+}
