@@ -1,0 +1,31 @@
+apps/studio/components/interfaces/Integrations/PostHog/OverviewTab.tsx
+  s_64492c934d88a2::t_4c1ea78062c1e6 1,3-15,17-20,22,24-51,53,57,60-90,111-116,124-198,210-212
+  s_64492c934d88a2::t_bda8b0d3959e5d 2,16,21,23,52,54-56,58-59,91-110,117-123,199-209
+apps/studio/components/interfaces/Integrations/PostHog/PostHog.utils.test.ts
+  s_64492c934d88a2::t_bda8b0d3959e5d 3,18-27
+  s_64492c934d88a2::t_5dbb631e6765b9 1-2,4-17,28-29
+apps/studio/components/interfaces/Integrations/PostHog/PostHog.utils.ts
+  s_64492c934d88a2::t_bda8b0d3959e5d 10-15
+  s_64492c934d88a2::t_5dbb631e6765b9 1-9,16-20
+apps/studio/components/interfaces/Integrations/Landing/useInstalledIntegrations.tsx
+  s_64492c934d88a2::t_324f43620815a3 12,16,88-96,108,127,140
+apps/studio/components/interfaces/Integrations/PostHog/OverviewTab.test.tsx
+  s_64492c934d88a2::t_250b0a7894757d 194-196
+  s_64492c934d88a2::t_ff832889b652d1 1-193,197-203
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "92722e74cb76638202cb00df7ab32bacbccf9c7a",
+  "prompts": {},
+  "sessions": {
+    "s_64492c934d88a2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d3872325-03f4-4f89-a79a-027cfc680d8a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Keith Digby <keith.digby@codewizards.co.uk>"
+    }
+  }
+}
